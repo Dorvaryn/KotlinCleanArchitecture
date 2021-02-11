@@ -1,10 +1,9 @@
 package cat.helm.basearchitecture.interactor
 
 import cat.helm.basearchitecture.Result
-import kotlinx.coroutines.experimental.async
-import kotlinx.coroutines.experimental.launch
+import kotlinx.coroutines.*
 import javax.inject.Inject
-import kotlin.coroutines.experimental.AbstractCoroutineContextElement
+import kotlin.coroutines.AbstractCoroutineContextElement
 
 /**
  * Created by Borja on 1/6/17.
@@ -17,7 +16,7 @@ abstract class Interactor<out SuccessValue, in Parameters> {
 
     fun execute(parameters: Parameters,
                 delegate: (result: Result<SuccessValue, *>) -> Unit) =
-            launch(continuation) {
+            GlobalScope.launch {
                 val result = async {
                     run(parameters)
                 }
